@@ -1,6 +1,29 @@
-import {shouldUseProxyUrl, proxyUrl, fhirUrl} from '../config';
+import {shouldUseProxyUrl, proxyUrl, fhirUrl, shouldUseCookie} from '../config';
 import {logErrors, replaceLocalhost} from '../utils/common';
 import store from '../store';
+
+const getHeaders = headers => {
+  let allHeaders = {
+    'Cache-Control': 'max-age=3600',
+    Accept: 'application/fhir+json;charset=utf-8',
+    ...headers,
+  };
+  const selectedServer = store.getState().app.selectedServer;
+  const requiresAuth = selectedServer.authType !== 'NO_AUTH';
+  if (requiresAuth) {
+    const token = store.getState().app.token;
+    allHeaders['Authorization'] = `Basic ${token}`;
+  }
+  return allHeaders;
+};
+
+const setCredentials = url => {
+  if (shouldUseCookie(url)) {
+    return 'include';
+  } else {
+    return 'omit';
+  }
+};
 
 export const postWithHeaders = async (
   url,
@@ -9,18 +32,16 @@ export const postWithHeaders = async (
   headers = [],
 ) => {
   let fullUrl = shouldUseProxyUrl(url) ? `${proxyUrl}${url}` : `${url}`;
-  const token = store.getState().app.token;
+  const credentials = setCredentials(url);
   return fetch(`${fullUrl}`, {
     signal: abortController ? abortController.signal : null,
     method: 'POST',
     headers: {
-      ...headers,
-      Authorization: `Basic ${token}`,
-      'Cache-Control': 'max-age=3600',
-      Accept: 'application/fhir+json;charset=utf-8',
       'Content-Type': 'application/fhir+json;charset=utf-8',
+      ...getHeaders(headers),
     },
     body: JSON.stringify(body),
+    credentials,
   })
     .then(res => {
       if (res.status !== 201) {
@@ -47,14 +68,11 @@ const fetchWithHeaders = async (
       .concat(`${url.includes('?') ? '&' : '?'}`)
       .concat('_summary=count');
   }
-  const token = store.getState().app.token;
+  let credentials = setCredentials(url);
   return fetch(`${fullUrl}`, {
     signal: abortController ? abortController.signal : null,
-    headers: {
-      ...headers,
-      Authorization: `Basic ${token}`,
-      'Cache-Control': 'max-age=3600',
-    },
+    headers: getHeaders(headers),
+    credentials,
   })
     .then(res => {
       if (res.status !== 200) {
@@ -264,11 +282,13 @@ export const userIsAuthorized = (
   const fullUrl = shouldUseProxyUrl(baseUrl)
     ? `${proxyUrl}${baseUrl}`
     : `${baseUrl}`;
+  const credentials = setCredentials(baseUrl);
   return fetch(`${fullUrl}StructureDefinition`, {
     signal: abortController ? abortController.signal : null,
     headers: {
       Authorization: `Basic ${token}`,
     },
+    credentials,
   })
     .then(res => {
       if (res.status !== 200) {
