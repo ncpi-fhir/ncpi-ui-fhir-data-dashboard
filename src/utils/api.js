@@ -10,7 +10,7 @@ const getHeaders = headers => {
   };
   const selectedServer = store.getState().app.selectedServer;
   const requiresAuth = selectedServer.authType !== 'NO_AUTH';
-  if (requiresAuth) {
+  if (requiresAuth && !shouldUseProxyUrl(selectedServer.url)) {
     const token = store.getState().app.token;
     allHeaders['Authorization'] = `Basic ${token}`;
   }
