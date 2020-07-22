@@ -18,12 +18,11 @@ const getHeaders = headers => {
 };
 
 const setCredentials = url => {
-  console.log('url', url);
-  console.log('shouldUseCookie?', shouldUseCookie(url));
-  console.log('proxy?', url.includes(proxyUrl));
   if (shouldUseCookie(url) && !url.includes(proxyUrl)) {
+    console.log('credentials', 'include');
     return 'include';
   }
+  console.log('credentials', 'same-origin');
   return 'same-origin';
 };
 
