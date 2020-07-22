@@ -20,9 +20,8 @@ const getHeaders = headers => {
 const setCredentials = url => {
   if (shouldUseCookie(url) && !url.includes(proxyUrl)) {
     return 'include';
-  } else {
-    return 'omit';
   }
+  return 'same-origin';
 };
 
 export const postWithHeaders = async (
@@ -32,16 +31,15 @@ export const postWithHeaders = async (
   headers = [],
 ) => {
   let fullUrl = shouldUseProxyUrl(url) ? `${proxyUrl}${url}` : `${url}`;
-  const credentials = setCredentials(fullUrl);
   return fetch(`${fullUrl}`, {
     signal: abortController ? abortController.signal : null,
     method: 'POST',
+    credentials: setCredentials(fullUrl),
     headers: {
       'Content-Type': 'application/fhir+json;charset=utf-8',
       ...getHeaders(headers),
     },
     body: JSON.stringify(body),
-    credentials,
   })
     .then(res => {
       if (res.status !== 201) {
@@ -68,11 +66,10 @@ const fetchWithHeaders = async (
       .concat(`${url.includes('?') ? '&' : '?'}`)
       .concat('_summary=count');
   }
-  const credentials = setCredentials(fullUrl);
   return fetch(`${fullUrl}`, {
     signal: abortController ? abortController.signal : null,
+    credentials: setCredentials(fullUrl),
     headers: getHeaders(headers),
-    credentials,
   })
     .then(res => {
       if (res.status !== 200) {
@@ -282,11 +279,10 @@ export const userIsAuthorized = (
   let headers = {
     Authorization: `Basic ${token}`,
   };
-  const credentials = setCredentials(baseUrl);
   return fetch(`${baseUrl}StructureDefinition`, {
     signal: abortController ? abortController.signal : null,
+    credentials: setCredentials(baseUrl),
     headers,
-    credentials,
   })
     .then(res => {
       if (res.status !== 200) {
