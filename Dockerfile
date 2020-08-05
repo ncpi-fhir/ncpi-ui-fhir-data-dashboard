@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json /app/
 RUN npm ci
 RUN npm install react-scripts -g --silent
+RUN apt-get update -y && apt-get install -y jq
 
 ARG NODE_ENV=production
 ARG REACT_APP_FHIR_API_NAME=Localhost
@@ -14,6 +15,9 @@ ENV REACT_APP_FHIR_API_NAME=$REACT_APP_FHIR_API_NAME
 ENV REACT_APP_FHIR_API_AUTH_TYPE=$REACT_APP_FHIR_API_AUTH_TYPE
 ENV REACT_APP_FHIR_API=$REACT_APP_FHIR_API
 COPY . .
+RUN jq --arg api "$REACT_APP_FHIR_API/dashboard" '.homepage = $api' \
+package.json > updated.json && mv updated.json package.json
+RUN echo "Building app for: $(cat package.json | jq .homepage)"
 RUN npm run build
 
 FROM nginx:1.17
