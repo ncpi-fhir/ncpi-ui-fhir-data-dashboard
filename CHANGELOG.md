@@ -1,4 +1,21 @@
-# Kids First FHIR Data Dashboard Change History
+# NCPI FHIR Data Dashboard Change History
+
+## Release 0.2.0
+
+### Summary
+
+- Emojis: 🐛 x3, 👷 x2, ♻️ x1
+- Categories: Fixes x3, Ops x2, Other Changes x1
+
+### New features and changes
+
+- [#11](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/pull/11) - 🐛 Remove auth headers from requests if auth is not needed - [8c08bf51](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/commit/8c08bf51837208b7278d7abac44a46a2dbaf3d89) by [abgeorge7](https://github.com/abgeorge7)
+- [#6](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/pull/6) - 👷 Deploy to same origin as FHIR API at /dashboard - [89ef5103](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/commit/89ef510373dcb4e1a05050247e394fb1303f5d8e) by [znatty22](https://github.com/znatty22)
+- [#10](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/pull/10) - 🐛 Add missing initialization env vars to docker compose - [c0882407](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/commit/c08824079748f32e9ac717c7b6c7ae856ddb6127) by [znatty22](https://github.com/znatty22)
+- [#4](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/pull/4) - 👷 Open access to dev/qa - [cb01141f](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/commit/cb01141f6dbea3017259d3d8a666a80f2a34c55c) by [znatty22](https://github.com/znatty22)
+- [#3](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/pull/3) - 🐛 Update left over KF references with NCPI - [731fb7bc](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/commit/731fb7bc64d8cf81ed945b1d04d7005cf459fc76) by [znatty22](https://github.com/znatty22)
+- [#1](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/pull/1) - ♻️ Replace kids-first things with ncpi - [933f7254](https://github.com/ncpi-fhir/ncpi-ui-fhir-data-dashboard/commit/933f7254aeb12bee82f2088e59e8014dac0a5cce) by [znatty22](https://github.com/znatty22)
+
 
 ## Release 0.1.0
 
