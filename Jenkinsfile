@@ -6,7 +6,6 @@ ecs_service_existing_alb {
     host_based_routing         = "0"
     alb_name                   = "ncpi-api-fhir-service"
     orgFullName                = "ncpi-fhir"
-    account                    = "chopd3b"
     environments               = "dev,qa,prd"
     build_environments         = "dev,qa,prd"
     docker_image_type          = "debian"
