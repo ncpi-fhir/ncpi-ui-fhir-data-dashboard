@@ -1,0 +1,21 @@
+@Library(value='kids-first/aws-infra-jenkins-shared-libraries', changelog=false) _
+ecs_service_existing_alb {
+    projectName                = "ncpi-ui-fhir-data-dashboard-controlled"
+    path_pattern              = "/dashboard*"
+    deploy_scripts_version     = "master"
+    host_based_routing         = "0"
+    alb_name                   = "ncpi-api-fhir-service-controlled"
+    orgFullName                = "ncpi-fhir"
+    environments               = "qa"
+    build_environments         = "qa"
+    docker_image_type          = "debian"
+    create_default_iam_role    = "1"
+    entrypoint_command         = "/start_up.sh"
+    quick_deploy               = "true"
+    container_port             = "80"
+    health_check_path          = "/dashboard/"
+    external_config_repo       = "false"
+    internal_app               = "false"
+    qa_cidr		       = "0.0.0.0/0"
+    dependencies               = "ecr"
+}
