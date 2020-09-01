@@ -1,10 +1,10 @@
 @Library(value='kids-first/aws-infra-jenkins-shared-libraries', changelog=false) _
 ecs_service_existing_alb {
-    projectName                = "ncpi-ui-fhir-data-dashboard-controlled"
+    projectName                = "ncpi-fhir-dashboard-controlled"
     path_pattern              = "/dashboard*"
     deploy_scripts_version     = "master"
     host_based_routing         = "0"
-    alb_name                   = "ncpi-api-fhir-service-controlled"
+    alb_name                   = "ncpi-fhir-controlled"
     orgFullName                = "ncpi-fhir"
     environments               = "qa"
     build_environments         = "qa"
