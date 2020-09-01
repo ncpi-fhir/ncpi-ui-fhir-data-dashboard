@@ -18,4 +18,5 @@ ecs_service_existing_alb {
     internal_app               = "false"
     qa_cidr		       = "0.0.0.0/0"
     dependencies               = "ecr"
+    additional_ssl_cert_domain_name = "*.kidsfirstdrc.org"
 }
